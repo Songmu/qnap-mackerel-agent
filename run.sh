@@ -2,8 +2,8 @@
 
 DAEMON_MGR=/sbin/daemon_mgr
 NAME=mackerel-agent
-PROG=/usr/local/$NAME/bin/$NAME
-CONF=/usr/local/$NAME/$NAME.conf
+PROG=/share/MD0_DATA/.$NAME/bin/$NAME
+CONF=/share/MD0_DATA/.$NAME/$NAME.conf
 
 case "$1" in
     start)
