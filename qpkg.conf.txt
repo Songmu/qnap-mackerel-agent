@@ -1,9 +1,9 @@
-[mackerel_agent]
-Name = mackerel_agent
+[mackerel-agent]
+Name = mackerel-agent
 Version = 0.57.0
 Author = mackerelio
 Date = 2018-10-10
 Shell =  /usr/local/mackerel-agent/run.sh
-Install_Path = /usr/local/mackerel-gent
+Install_Path = /usr/local/mackerel-agent
 QPKG_File = /usr/local/mackerel-agent/DUMMY
 Enable = TRUE
