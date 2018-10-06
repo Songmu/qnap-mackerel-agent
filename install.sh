@@ -8,7 +8,7 @@ ln -fs $install_path/ /usr/local/mackerel-agent
 
 cd $install_path
 if [ ! -f ./mackerel-agent.conf ]; then
-  install mackerel-agent.conf.sample mackerel-agent.conf
+  install -m 0600 mackerel-agent.conf.sample mackerel-agent.conf
   while [ "$MACKEREL_APIKEY" = "" ]; do
     read -rp "input Mackerel APIKEY: " MACKEREL_APIKEY
   done
