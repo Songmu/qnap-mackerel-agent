@@ -4,7 +4,7 @@ set -e
 install_path=/share/MD0_DATA/.mackerel-agent
 install -d "$install_path"
 cp -r "$(dirname "$0")/" "$install_path"
-ln -fs $install_path/ /usr/local/mackerel-agent/
+ln -fs $install_path/ /usr/local/mackerel-agent
 
 cd $install_path
 if [ ! -f ./mackerel-agent.conf ]; then
