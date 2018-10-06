@@ -4,7 +4,7 @@ set -e
 install_path=/share/MD0_DATA/.mackerel-agent
 install -d "$install_path"
 cp -r "$(dirname "$0")/" "$install_path"
-ln -s $install_path /usr/local/mackerel-agent
+ln -fs $install_path/ /usr/local/mackerel-agent/
 
 cd $install_path
 if [ ! -f ./mackerel-agent.conf ]; then
@@ -12,7 +12,7 @@ if [ ! -f ./mackerel-agent.conf ]; then
   while [ "$MACKEREL_APIKEY" = "" ]; do
     read -rp "input Mackerel APIKEY: " MACKEREL_APIKEY
   done
-  bin/mackerel-agent init "$MACKEREL_APIKEY" -conf ./mackerel-agent.conf
+  bin/mackerel-agent init "-apikey=$MACKEREL_APIKEY" -conf ./mackerel-agent.conf
 fi
 
 qpkgconf=/etc/config/qpkg.conf
