@@ -3,7 +3,9 @@ set -e
 
 install_path=/share/MD0_DATA/.mackerel-agent
 install -d "$install_path"
-cp -r "$(dirname "$0")/" "$install_path"
+cp -rf "$(dirname "$0")/" "$install_path"
+
+# curl -o /etc/ssl/certs/ca-certificates.crt https://curl.haxx.se/ca/cacert.pem
 
 cd $install_path
 if [ ! -f ./mackerel-agent.conf ]; then
@@ -13,8 +15,6 @@ if [ ! -f ./mackerel-agent.conf ]; then
   done
   bin/mackerel-agent init "-apikey=$MACKEREL_APIKEY" -conf ./mackerel-agent.conf
 fi
-
-# curl -o /etc/ssl/certs/ca-certificates.crt https://curl.haxx.se/ca/cacert.pem
 
 qpkgconf=/etc/config/qpkg.conf
 if ! grep '\[mackerel_agent\]' $qpkgconf > /dev/null 2>&1; then
