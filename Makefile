@@ -1,2 +1,2 @@
 bin/mackerel-agent:
-	./build.sh
+	./author/build.sh
