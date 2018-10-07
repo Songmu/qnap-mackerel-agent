@@ -2,19 +2,19 @@
 
 DAEMON_MGR=/sbin/daemon_mgr
 NAME=mackerel-agent
-PROG=/share/MD0_DATA/.$NAME/bin/$NAME
-CONF=/share/MD0_DATA/.$NAME/$NAME.conf
+PROG_DIR=$(cd "$(dirname "$0")"; pwd)
+PROG="$PROG_DIR/bin/$NAME"
+CONF="$PROG_DIR/$NAME.conf"
 
 start() {
   mypid=$(/bin/pidof $NAME)
   if [ ! -z "$mypid" ]; then
     exit 1
-  else
-    /bin/echo -n $"Starting $NAME: "
-    $DAEMON_MGR $NAME start "$PROG --conf=$CONF 2>&1 | logger -t $NAME &"
-    exit 0
-    /bin/echo "OK"
   fi
+
+  /bin/echo -n $"Starting $NAME: "
+  $DAEMON_MGR $NAME start "$PROG --conf=$CONF 2>&1 | logger -t $NAME &"
+  /bin/echo "OK"
 }
 
 stop() {
