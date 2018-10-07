@@ -13,7 +13,7 @@ case "$1" in
     else
       echo "Starting $NAME: "
       echo
-      $DAEMON_MGR $NAME start "$PROG --conf=$CONF &"
+      $DAEMON_MGR $NAME start "$PROG --conf=$CONF 2>&1 | logger -t $NAME &"
       exit 0
     fi
     ;;
