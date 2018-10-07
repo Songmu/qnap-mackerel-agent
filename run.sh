@@ -5,26 +5,42 @@ NAME=mackerel-agent
 PROG=/share/MD0_DATA/.$NAME/bin/$NAME
 CONF=/share/MD0_DATA/.$NAME/$NAME.conf
 
+start() {
+  mypid=$(/bin/pidof $NAME)
+  if [ ! -z "$mypid" ]; then
+    exit 1
+  else
+    /bin/echo -n $"Starting $NAME: "
+    $DAEMON_MGR $NAME start "$PROG --conf=$CONF 2>&1 | logger -t $NAME &"
+    exit 0
+    /bin/echo "OK"
+  fi
+}
+
+stop() {
+  /bin/echo -n $"Stopping $NAME: "
+  $DAEMON_MGR $NAME stop "$PROG"
+  /bin/echo "OK"
+}
+
+restart() {
+  stop
+  /bin/sleep 1
+  start
+}
+
 case "$1" in
   start)
-    mypid=$(/bin/pidof $NAME)
-    if [ ! -z "$mypid" ]; then
-      exit 1
-    else
-      echo "Starting $NAME: "
-      echo
-      $DAEMON_MGR $NAME start "$PROG --conf=$CONF 2>&1 | logger -t $NAME &"
-      exit 0
-    fi
+    start
     ;;
   stop)
-    echo "Stopping $NAME: "
-    echo
-    $DAEMON_MGR $NAME stop "$PROG"
-    echo
+    stop
+    ;;
+  restart)
+    restart
     ;;
   *)
-    echo "Usage: $1 start|stop"
+    /bin/echo $"Usage: $0 {start|stop|restart}"
     exit 1
     ;;
 esac
