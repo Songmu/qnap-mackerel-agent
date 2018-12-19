@@ -17,6 +17,6 @@ if [ ! -f ./mackerel-agent.conf ]; then
 fi
 
 qpkgconf=/etc/config/qpkg.conf
-if ! grep '\[mackerel_agent\]' $qpkgconf > /dev/null 2>&1; then
+if ! grep '\[mackerel-agent\]' $qpkgconf > /dev/null 2>&1; then
     cat ./qpkg.conf.txt >> $qpkgconf
 fi
