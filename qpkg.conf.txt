@@ -1,8 +1,8 @@
 [mackerel-agent]
 Name = mackerel-agent
-Version = 0.57.0
+Version = 0.58.2
 Author = mackerelio
-Date = 2018-10-10
+Date = 2018-11-27
 Shell = /share/MD0_DATA/.mackerel-agent/run.sh
 Install_Path = /share/MD0_DATA/.mackerel-agent
 QPKG_File = /share/MD0_DATA/.mackerel-agent/DUMMY
