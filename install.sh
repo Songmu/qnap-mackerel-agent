@@ -16,7 +16,4 @@ if [ ! -f ./mackerel-agent.conf ]; then
   bin/mackerel-agent init "-apikey=$MACKEREL_APIKEY" -conf ./mackerel-agent.conf
 fi
 
-qpkgconf=/etc/config/qpkg.conf
-if ! grep '\[mackerel-agent\]' $qpkgconf > /dev/null 2>&1; then
-    cat ./qpkg.conf.txt >> $qpkgconf
-fi
+bin/mkrinst
