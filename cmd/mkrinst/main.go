@@ -38,6 +38,9 @@ func updateConf(from, confStr string) string {
 	if !strings.HasPrefix(confStr, "[mackerel-agent]") {
 		log.Fatalf("invalid confStr: %s", confStr)
 	}
+	if !strings.HasSuffix(confStr, "\n") {
+		confStr += "\n"
+	}
 	if !strings.Contains(from, "[mackerel-agent]") {
 		if !strings.HasSuffix(from, "\n") {
 			from += "\n"
