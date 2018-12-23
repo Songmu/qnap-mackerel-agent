@@ -27,12 +27,25 @@ func doQpkgConf(argv []string) error {
 	buf := &bytes.Buffer{}
 	tmpl.Execute(buf, struct{ InstallPath string }{InstallPath: installPath})
 
-	confAllBytes, err := ioutil.ReadFile(confFile)
+	f, err := os.Open(confFile)
 	if err != nil {
 		return err
 	}
-	resultStr := updateConf(string(confAllBytes), buf.String())
-	if resultStr == string(confAllBytes) {
+	defer f.Close()
+	fi, err := f.Stat()
+	if err != nil {
+		return err
+	}
+	origMode := fi.Mode()
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		return err
+	}
+	if err := f.Close(); err != nil {
+		return err
+	}
+	resultStr := updateConf(string(b), buf.String())
+	if resultStr == string(b) {
 		return nil
 	}
 	tmp, err := ioutil.TempFile(filepath.Dir(confFile), "mackerel-agent")
@@ -44,14 +57,12 @@ func doQpkgConf(argv []string) error {
 		os.Remove(fname)
 	}(tmp.Name())
 
-	st, err := os.Stat(confFile)
-	if err != nil {
+	if err := tmp.Chmod(origMode); err != nil {
 		return err
 	}
-	if err := os.Chmod(tmp.Name(), st.Mode()); err != nil {
+	if _, err := fmt.Fprint(tmp, resultStr); err != nil {
 		return err
 	}
-	fmt.Fprint(tmp, resultStr)
 	if err := tmp.Close(); err != nil {
 		return err
 	}
