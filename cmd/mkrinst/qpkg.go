@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"text/template"
@@ -33,7 +35,27 @@ func doQpkgConf(argv []string) error {
 	if resultStr == string(confAllBytes) {
 		return nil
 	}
-	return ioutil.WriteFile(confFile, []byte(resultStr), 0644)
+	tmp, err := ioutil.TempFile(filepath.Dir(confFile), "mackerel-agent")
+	if err != nil {
+		return err
+	}
+	defer func(fname string) {
+		tmp.Close()
+		os.Remove(fname)
+	}(tmp.Name())
+
+	st, err := os.Stat(confFile)
+	if err != nil {
+		return err
+	}
+	if err := os.Chmod(tmp.Name(), st.Mode()); err != nil {
+		return err
+	}
+	fmt.Fprint(tmp, resultStr)
+	if err := tmp.Close(); err != nil {
+		return err
+	}
+	return os.Rename(tmp.Name(), confFile)
 }
 
 var reg = regexp.MustCompile(`\[mackerel-agent\][^[]+`)
