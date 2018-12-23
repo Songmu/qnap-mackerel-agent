@@ -20,7 +20,7 @@ func doAgentConf(argv []string) (err error) {
 		return err
 	}
 
-	f, err := os.OpenFile(confFile, os.O_CREATE|os.O_EXCL, 0600)
+	f, err := os.OpenFile(confFile, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0600)
 	if err != nil {
 		return err
 	}
