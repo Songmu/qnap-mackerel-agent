@@ -26,7 +26,9 @@ QNAP上でこのrepositoryをcloneなり、アーカイブをダウンロード�
 Mackerelの API Keyを設定します。設定されていない場合はプロンプトが表示され入力が促されます。
 
 ### `MACKERE_INSTALL_PATH`
-mackerel-agent関連ファイルの配置ディレクトリです。デフォルトは `/share/MD0_DATA/.mackerel-agent` です。RAID構成じゃないQNAPの場合、MD0_DATAの部分がMDA_DATAになったりするようなので適宜調整してください。
+mackerel-agent関連ファイルの配置ディレクトリです。デフォルトは `/share/MD0_DATA/.mackerel-agent` です。
+
+RAID構成ではないQNAPの場合、MD0_DATAの部分がMDA_DATAなどになるようなので適宜調整してください。また、この設定を変更する場合、再起動時にデータが揮発するパスを指定しないように注意してください。
 
 このインストールパス配下に、mackerel-agentの設定やプラグインなども配置していくことになるため、このパスは覚えておいてください。
 
