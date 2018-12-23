@@ -1,11 +1,9 @@
 package main
 
 import (
-	"io/ioutil"
+	"fmt"
 	"log"
 	"os"
-	"regexp"
-	"strings"
 )
 
 func main() {
@@ -15,37 +13,18 @@ func main() {
 	}
 }
 
-func run(argv []string) error {
-	conffile := "/etc/config/qpkg.conf"
-	confBytes, err := ioutil.ReadFile("./qpkg.conf.txt")
-	if err != nil {
-		return err
-	}
-	confAllBytes, err := ioutil.ReadFile(conffile)
-	if err != nil {
-		return err
-	}
-	resultStr := updateConf(string(confAllBytes), string(confBytes))
-	if resultStr == string(confAllBytes) {
-		return nil
-	}
-	return ioutil.WriteFile(conffile, []byte(resultStr), 0644)
+var subCommands = map[string]func([]string) error{
+	"qpkgconf":  doQpkgConf,
+	"agentconf": doAgentConf,
 }
 
-var reg = regexp.MustCompile(`\[mackerel-agent\][^[]+`)
-
-func updateConf(from, confStr string) string {
-	if !strings.HasPrefix(confStr, "[mackerel-agent]") {
-		log.Fatalf("invalid confStr: %s", confStr)
+func run(argv []string) error {
+	if len(argv) < 1 {
+		return fmt.Errorf("no subbcommand specified")
 	}
-	if !strings.HasSuffix(confStr, "\n") {
-		confStr += "\n"
+	fn, ok := subCommands[argv[0]]
+	if !ok {
+		return fmt.Errorf("unknown sub command: %s", argv[0])
 	}
-	if !strings.Contains(from, "[mackerel-agent]") {
-		if !strings.HasSuffix(from, "\n") {
-			from += "\n"
-		}
-		return from + confStr
-	}
-	return reg.ReplaceAllString(from, confStr)
+	return fn(argv[1:])
 }
