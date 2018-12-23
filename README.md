@@ -56,6 +56,18 @@ include = "{{.InstallPath}}/conf.d/*.conf"
 
 ですので、 `mackerel-agent.conf` を直接編集するのではなく、 `conf.d` に設定ファイルやプラグイン類を配置し、構成管理をすることをオススメします。
 
+## OTHER
+
+mackerel-agentが暗黙的に作成するデータファイル類(idファイル等)は、インストールパス配下の `data/` ディレクトリに保存されます。
+
+## UNINSTALL
+
+1. mackerel-agentのプロセスを停止する
+  -  `% /share/MD0_DATA/.mackerel-agent/run.sh stop`
+2. `/etc/config/qpkg.conf` に書き込まれている "[mackerel-agent]" の設定を削除する
+3. インストールパスを削除する
+  -  `% rm -rf /share/MD0_DATA/.mackerel-agent`
+
 ## AUTHOR
 
 [Songmu](https://github.com/Songmu)
