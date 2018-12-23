@@ -1,2 +1,0 @@
-root = "/share/MD0_DATA/.mackerel-agent/data"
-include = "/share/MD0_DATA/.mackerel-agent/conf.d/*.conf"
