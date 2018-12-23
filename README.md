@@ -32,11 +32,11 @@ mackerel-agent関連ファイルの配置ディレクトリです。デフォル
 
 ## LAUNCH
 
-一般的な起動スクリプト同様に以下でmackerel-agentが起動します。OS起動時には自動起動されるため、このコマンドを手動で実行する必要はありません。
+インストールパス配下の `run.sh` が起動スクリプトです。一般的な起動スクリプト同様に `start`, `stop`, `restart` を指定可能です。
 
     % /share/MD0_DATA/.mackerel-agent/run.sh start
 
-`start`の他に`stop`, `restart` を渡すこともできます。設定を変更した場合には `restart` するようにしてください。
+インストール直後には明示的に `start` する必要がありますが、以降はOS起動時に自動起動されるため、手動実行する必要はありません。また、設定を変更した場合には `restart` するようにしてください。
 
 ## UPDATE
 
@@ -54,7 +54,7 @@ mackerel-agent関連ファイルの配置ディレクトリです。デフォル
 include = "{{.InstallPath}}/conf.d/*.conf"
 ```
 
-`mackerel-agent.conf` を直接編集するのではなく、 `conf.d` 配下に、設定ファイルやプラグイン類を配置し、構成管理をすることをオススメします。
+ですので、 `mackerel-agent.conf` を直接編集するのではなく、 `conf.d` に設定ファイルやプラグイン類を配置し、構成管理をすることをオススメします。
 
 ## AUTHOR
 
